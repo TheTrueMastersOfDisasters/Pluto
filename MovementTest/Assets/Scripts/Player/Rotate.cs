@@ -7,7 +7,7 @@ public class Rotate : MonoBehaviour
     public float m_IdleSpeed = .5f;
     Vector3 m_ReferenceVector = new Vector3(1, 0, 1);
 
-    void LateUpdate()
+    void Update()
     {
         Vector3 relativeRotateVector = PlayerController.instance.GetRelativeRight().normalized;
 

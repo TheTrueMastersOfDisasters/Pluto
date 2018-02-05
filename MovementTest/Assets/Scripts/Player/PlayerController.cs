@@ -52,7 +52,11 @@ public class PlayerController : MonoBehaviour {
         }
 
     }
-		
+
+    private void Update()
+    { 
+        DebugDrawLines();
+    }
     private void DebugDrawLines()
     {
         Debug.DrawLine(transform.position, (transform.position + (m_Normal * 2.0f)), Color.green);
@@ -100,6 +104,11 @@ public class PlayerController : MonoBehaviour {
     {
         m_IsGrounded = true;
         m_JumpResistance = m_InitialJumpResistance;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+
     }
 
     public bool IsGrounded()
