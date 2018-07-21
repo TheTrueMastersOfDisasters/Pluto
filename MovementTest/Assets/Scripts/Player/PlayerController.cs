@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 
     private Rigidbody m_RigidBody;
     private bool m_IsGrounded = false;
+
     private Vector3 m_MoveDir;
     private Vector3 m_Normal = new Vector3(0,1,0);
     private Vector3 m_HorizontalVelocity = new Vector3();
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour {
 
         if (m_MoveDir == Vector3.zero)
         {
-           //Do Orbiting
+           //
         }
         else
         {

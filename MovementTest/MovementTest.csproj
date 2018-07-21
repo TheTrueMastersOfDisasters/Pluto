@@ -83,8 +83,10 @@
     <Compile Include="Assets\Scripts\FauxGravity\FauxGravityBody.cs" />
     <Compile Include="Assets\Scripts\Planet\EyeTracker.cs" />
     <Compile Include="Assets\Scripts\Planet\Pillar.cs" />
+    <Compile Include="Assets\Scripts\Planet\PillarAttacks.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\Rotate.cs" />
+    <Compile Include="Assets\Scripts\Scene\GameManager.cs" />
     <Compile Include="Assets\Scripts\Utility\Extensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
