@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
     public static PlayerController instance;
 
-    public float m_Acceleration = 15;
-    public float m_MaxSpeed = 15;
+    public float m_Acceleration = 20;
+    public float m_MaxSpeed = 10;
     public float m_IdleOrbitSpeed = 2;
-    public float m_JumpSpeed = 80;
+    public float m_JumpSpeed = 35;
+	public float m_PoundForce = 10;
     public float m_InitialJumpResistance = 1f;
 
     public GameObject m_BasePlanet;
@@ -23,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 
     private float m_JumpResistance;
 
-    private void Awake()
+	private void Awake()
     {
         instance = this;
     }
@@ -40,17 +39,22 @@ public class PlayerController : MonoBehaviour {
 
         Move();
 
-        if (m_IsGrounded)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Jump();
-            }
-        }
-        else
-        {
-            ApplyCounterForce();
-        }
+		if (m_IsGrounded)
+		{
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				Jump();
+			}
+		}
+		else
+		{
+			ApplyCounterForce();
+
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				Pound();
+			}
+		}
 
     }
 
@@ -58,6 +62,7 @@ public class PlayerController : MonoBehaviour {
     { 
         DebugDrawLines();
     }
+
     private void DebugDrawLines()
     {
         Debug.DrawLine(transform.position, (transform.position + (m_Normal * 2.0f)), Color.green);
@@ -77,9 +82,9 @@ public class PlayerController : MonoBehaviour {
 
     private void Move()
     {
-        m_MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+		m_MoveDir = this.GetInputDirection();
 
-        if (m_MoveDir == Vector3.zero)
+		if (m_MoveDir == Vector3.zero)
         {
            //
         }
@@ -92,7 +97,7 @@ public class PlayerController : MonoBehaviour {
             {
                 if (m_RigidBody.velocity.magnitude >= m_MaxSpeed)
                 {
-                    m_RigidBody.velocity = GetComponent<Rigidbody>().velocity.normalized * m_MaxSpeed;
+                    m_RigidBody.velocity = m_RigidBody.velocity.normalized * m_MaxSpeed;
                 }
             }
 
@@ -117,7 +122,27 @@ public class PlayerController : MonoBehaviour {
         return m_IsGrounded;
     }
 
-    public Vector3 GetRelativeNormal()
+	private Vector3 GetInputDirection()
+	{
+		if (SystemInfo.deviceType == DeviceType.Desktop)
+		{
+			m_MoveDir = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+		}
+		else if (SystemInfo.deviceType == DeviceType.Handheld)
+		{
+			m_MoveDir = new Vector3(Input.acceleration.x, 0.0f, Input.acceleration.z);
+		}
+
+		return m_MoveDir;
+	}
+
+	private void Pound()
+	{
+		m_RigidBody.velocity = Vector3.zero;
+		m_RigidBody.velocity = -1f * GetRelativeNormal() * m_PoundForce;
+	}
+
+	public Vector3 GetRelativeNormal()
     {
         return m_Normal;
     }
@@ -137,4 +162,5 @@ public class PlayerController : MonoBehaviour {
         m_RigidBody.velocity += m_JumpResistance * -m_Normal;
         m_JumpResistance += .1f;
     }
+
 }

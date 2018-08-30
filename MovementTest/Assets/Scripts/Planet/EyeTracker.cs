@@ -34,7 +34,7 @@ public class EyeTracker : MonoBehaviour {
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, m_NewPosition, 10 * Time.deltaTime);
 
-        Debug.DrawLine(transform.position, transform.position + m_TargetDirection, Color.cyan);
-        print(m_NewPosition);
+        //Debug.DrawLine(transform.position, transform.position + m_TargetDirection, Color.cyan);
+        //print(m_NewPosition);
     }
 }
